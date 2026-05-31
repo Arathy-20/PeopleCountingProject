@@ -6,3 +6,6 @@ models/
 results/
 
 .DS_Store
+*.npy
+X.npy
+y.npy
