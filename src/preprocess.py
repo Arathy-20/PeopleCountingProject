@@ -1,10 +1,29 @@
 import cv2
+import numpy as np
 
-img=cv2.imread("dataset/ShanghaiTech/part_A/train_data/images/IMG_1.jpg")
-print("original shape", img.shape)
-img=cv2.resize(img, (224,224))
-print("resized shape:",img.shape)
+IMG_SIZE = (224, 224)
 
-img=img/255.0
-print("min pixel:", img.min())
-print("max pixel:", img.max())
+
+def preprocess_image(pil_image):
+
+    img_rgb = pil_image.convert("RGB")
+
+    img_np = np.array(
+        img_rgb,
+        dtype=np.uint8
+    )
+
+    img_resized = cv2.resize(
+        img_np,
+        IMG_SIZE,
+        interpolation=cv2.INTER_AREA
+    )
+
+    img_norm = img_resized.astype(
+        np.float32
+    ) / 255.0
+
+    return np.expand_dims(
+        img_norm,
+        axis=0
+    )
